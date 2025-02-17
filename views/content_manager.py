@@ -56,7 +56,7 @@ def post_to_linkedin(articles):
         post_content += f"🔹 {article['title']}\nRead more: {article['link']}\n\n"
 
     payload = {
-        "author": "urn:li:person:Fx9-1COIim",
+        "author": "urn:li:person:REPLACE_WITH_ACTUAL_URN",
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
