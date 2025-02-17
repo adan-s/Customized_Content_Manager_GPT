@@ -3,7 +3,7 @@ info:
   title: LinkedIn Content Manager API
   version: 1.0.0
 servers:
-  - url: https://cd4f-110-39-11-117.ngrok-free.app
+  - url: https://cd4f-110-39-11-117.ngrok-free.app (replace with the url on which your backend is hosted)
 paths:
   /content-manager/fetch-and-post:
     post:
