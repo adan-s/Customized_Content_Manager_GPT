@@ -20,10 +20,7 @@ def get_rss_articles(rss_url: str, max_articles: int = 10):
     :return: A list of dictionaries containing article details.
     """
 
-    print("rss url:", rss_url)
     feed = feedparser.parse(rss_url)
-
-    print("feed:",feed)
 
     # Check if the feed was fetched successfully
     if not feed.entries:

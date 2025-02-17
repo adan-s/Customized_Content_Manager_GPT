@@ -13,6 +13,5 @@ def fetch_and_post():
         return jsonify({"message": "No articles found"}), 400
 
     result = ContentManagerView.post_to_linkedin(articles)
-    print("result:",result)
 
     return jsonify(result)
