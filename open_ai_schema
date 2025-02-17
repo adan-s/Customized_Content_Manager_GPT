@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: LinkedIn Content Manager API
+  version: 1.0.0
+servers:
+  - url: https://cd4f-110-39-11-117.ngrok-free.app
+paths:
+  /content-manager/fetch-and-post:
+    post:
+      operationId: fetchAndPostContent
+      summary: Fetch articles from RSS feed and post to LinkedIn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                feed_url:
+                  type: string
+                  example: https://example.com/rss
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    author:
+                      type: string
+                      example: urn:li:person:Fx9-1COIim
+                    lifecycleState:
+                      type: string
+                      example: PUBLISHED
+                    specificContent:
+                      type: object
+                      properties:
+                        com.linkedin.ugc.ShareContent:
+                          type: object
+                          properties:
+                            shareCommentary:
+                              type: object
+                              properties:
+                                text:
+                                  type: string
+                                  example: |-
+                                    Article title
+
+                                    Article summary
+                                    Read more: Article link
+                            shareMediaCategory:
+                              type: string
+                              example: NONE
+                    visibility:
+                      type: object
+                      properties:
+                        com.linkedin.ugc.MemberNetworkVisibility:
+                          type: string
+                          example: PUBLIC
+        "400":
+          description: Invalid input
+        "500":
+          description: Internal server error
