@@ -99,7 +99,3 @@ To get the access token for LinkedIn API, follow these steps:
     ```dotenv
     ACCESS_TOKEN=your_access_token
     ```
-
-## License
-
-This project is licensed under the MIT License.
