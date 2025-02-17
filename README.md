@@ -41,33 +41,6 @@ This project is a Flask-based API that fetches articles from an RSS feed and pos
     AUTHORIZATION_CODE=your_authorization_code
     ```
 
-## Running the Application
-
-1. Start the Flask application:
-    ```sh
-    python main.py
-    ```
-
-2. The application will be running at `http://127.0.0.1:5000`.
-
-## API Endpoints
-
-### POST /content-manager/fetch-and-post
-
-Fetches articles from an RSS feed and posts them to LinkedIn.
-
-**Request Body:**
-```json
-{
-  "feed_url": "https://example.com/rss"
-}
-```
-
-**Responses:**
-- `200 OK`: Successful operation
-- `400 Bad Request`: Invalid input
-- `500 Internal Server Error`: Internal server error
-
 ## Getting the Access Token
 
 To get the access token for LinkedIn API, follow these steps:
@@ -99,3 +72,40 @@ To get the access token for LinkedIn API, follow these steps:
     ```dotenv
     ACCESS_TOKEN=your_access_token
     ```
+6. **Get your URN**:
+    - Make a GET request to LinkedIn's user info endpoint:
+      ```sh
+      curl -X GET https://api.linkedin.com/v2/userinfo \
+      -H "Authorization: Bearer <access_token>"
+      ```
+    - The value of the `sub` key in the response is your URN.
+
+
+## Running the Application
+
+1. Start the Flask application:
+    ```sh
+    python main.py
+    ```
+
+2. The application will be running at `http://127.0.0.1:5000`.
+
+3. **Important:** Before running the application, ensure you replace the placeholder `urn:li:person:REPLACE_WITH_ACTUAL_URN` in the `post_to_linkedin` function in `views/content_manager.py` with the actual URN of the LinkedIn user.
+
+## API Endpoints
+
+### POST /content-manager/fetch-and-post
+
+Fetches articles from an RSS feed and posts them to LinkedIn.
+
+**Request Body:**
+```json
+{
+  "feed_url": "https://example.com/rss"
+}
+```
+
+**Responses:**
+- `200 OK`: Successful operation
+- `400 Bad Request`: Invalid input
+- `500 Internal Server Error`: Internal server error
