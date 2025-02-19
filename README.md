@@ -123,10 +123,19 @@ Fetches articles from an RSS feed.
 Posts articles to LinkedIn.
 
 **Request Body:**
+- To post on personal feed
 ```json
 {
   "articles": "Article title\n\nArticle summary\nRead more: Article link",
-  "post_as": "personal",
+  "post_as": "personal"
+}
+```
+
+- To post on organization feed
+```json
+{
+  "articles": "Article title\n\nArticle summary\nRead more: Article link",
+  "post_as": "organization",
   "organization_id": "123456"
 }
 ```
