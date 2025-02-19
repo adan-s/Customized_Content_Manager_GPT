@@ -3,12 +3,12 @@ info:
   title: LinkedIn Content Manager API
   version: 1.0.0
 servers:
-  - url: https://cd4f-110-39-11-117.ngrok-free.app (replace with the url on which your backend is hosted)
+  - url: https://60c6-175-107-239-31.ngrok-free.app
 paths:
-  /content-manager/fetch-and-post:
+  /content-manager/fetch:
     post:
-      operationId: fetchAndPostContent
-      summary: Fetch articles from RSS feed and post to LinkedIn
+      operationId: fetchContent
+      summary: Fetch articles from RSS feed
       requestBody:
         required: true
         content:
@@ -29,38 +29,109 @@ paths:
                 items:
                   type: object
                   properties:
-                    author:
+                    title:
                       type: string
-                      example: urn:li:person:Fx9-1COIim
-                    lifecycleState:
+                      example: Article title
+                    link:
                       type: string
-                      example: PUBLISHED
-                    specificContent:
-                      type: object
-                      properties:
-                        com.linkedin.ugc.ShareContent:
-                          type: object
-                          properties:
-                            shareCommentary:
-                              type: object
-                              properties:
-                                text:
-                                  type: string
-                                  example: |-
-                                    Article title
-
-                                    Article summary
-                                    Read more: Article link
-                            shareMediaCategory:
-                              type: string
-                              example: NONE
-                    visibility:
-                      type: object
-                      properties:
-                        com.linkedin.ugc.MemberNetworkVisibility:
-                          type: string
-                          example: PUBLIC
+                      example: https://example.com/article
         "400":
-          description: Invalid input
+          description: No articles found
+        "500":
+          description: Internal server error
+  /content-manager/post:
+    post:
+      operationId: postContent
+      summary: Post articles to LinkedIn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_as:
+                  type: string
+                  enum:
+                    - personal
+                    - organization
+                  description: Determines where to post the article (personal account or organization)
+                  example: personal
+                organization_id:
+                  type: string
+                  description: Required if posting as an organization
+                  example: "123456"
+                  nullable: true
+                articles:
+                  type: string
+                  example: |-
+                    Article title
+
+                    Article summary
+                    Read more: Article link
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  author:
+                    type: string
+                  lifecycleState:
+                    type: string
+                    example: PUBLISHED
+                  specificContent:
+                    type: object
+                    properties:
+                      com.linkedin.ugc.ShareContent:
+                        type: object
+                        properties:
+                          shareCommentary:
+                            type: object
+                            properties:
+                              text:
+                                type: string
+                                example: |-
+                                  Article title
+
+                                  Article summary
+                                  Read more: Article link
+                          shareMediaCategory:
+                            type: string
+                            example: NONE
+                  visibility:
+                    type: object
+                    properties:
+                      com.linkedin.ugc.MemberNetworkVisibility:
+                        type: string
+                        example: PUBLIC
+        "400":
+          description: Invalid input or missing organization ID when posting as an organization
+        "500":
+          description: Internal server error
+  /content-manager/organizations:
+    get:
+      operationId: getOrganizations
+      summary: Fetch user’s associated organizations
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "123456"
+                    name:
+                      type: string
+                      example: Example Company
+        "400":
+          description: No organizations found
         "500":
           description: Internal server error
